@@ -7,9 +7,6 @@
 # Collaborators : Me, Myself, and I
 # Time spent    : <total time>
 
-
-#DISCLAIMER
-#
 import math
 import random
 import string
@@ -94,19 +91,11 @@ def get_word_score(word, n):
     n: int >= 0
     returns: int >= 0
     """
-    
-    #If the length of the word is zero, there are no points to be
-    #rewarded to the user
     if len(word) == 0:
         return 0
     else:
-
-        #convert the word to lowercase
         lower_case_word = word.lower()
         word_length = len(lower_case_word)
-        
-        #calulate each word score based on the components provided
-        #by the problem set
         letter_points = 0
         word_points = ((7 * word_length) - (3 * (n - word_length)))
 
@@ -117,7 +106,6 @@ def get_word_score(word, n):
             return letter_points * word_points
         else:
             return letter_points
-
 
 def display_hand(hand):
     """
@@ -154,9 +142,7 @@ def deal_hand(n):
     
     hand={}
     num_vowels = int(math.ceil(n / 3))
-
-    #give the user a specific amount of vowels, consonants and 
-    #always 1 wildcard
+	
     for i in range(num_vowels):
         if '*' not in hand.keys():
             hand['*'] = 1
@@ -191,8 +177,6 @@ def update_hand(hand, word):
     lower_case_word = word.lower()
     new_hand = hand.copy()
     
-    #Update the hand based on the letters in the word
-    #provided by the user
     for letter in lower_case_word:
         if letter in new_hand:
             if new_hand[letter] > 0:
@@ -218,9 +202,6 @@ def is_valid_word(word, hand, word_list):
     lower_case_word = word.lower()
     new_hand = hand.copy()
 
-    #Make sure all characters used in the word created by
-    #the user are in the hand and don't exceed the amount
-    #of times it occurs within the hand
     for character in lower_case_word:
         if character in new_hand:    
             if new_hand[character] > 0:
@@ -230,8 +211,6 @@ def is_valid_word(word, hand, word_list):
         else:
             return False
 
-    #If a wildcard is in the word then replace the wildcard
-    #with all vowels un
     if '*' in lower_case_word:
         wildcard_index = lower_case_word.index('*')
         lower_case_word = list(lower_case_word)
@@ -240,7 +219,9 @@ def is_valid_word(word, hand, word_list):
             lower_case_word[wildcard_index] = letter
             if "".join(lower_case_word) in word_list:
                 return True
-        return False
+        
+	return False
+
     else:
         return lower_case_word in word_list
 
@@ -254,7 +235,6 @@ def calculate_handlen(hand):
     
     hand_length = 0
     
-    #get # of char appearances from the hand
     for value in hand.values():
         hand_length += value
     
@@ -373,8 +353,6 @@ def substitute_hand(hand, letter):
     letter: string
     returns: dictionary (string -> int)
     """
-    #If the letter is not in the hand return the hand
-    #Else replace all occurances of the letter with a new random letter
     if letter not in hand:
         return hand
     else:
@@ -382,7 +360,6 @@ def substitute_hand(hand, letter):
         letter_occurances = new_hand.pop(letter, 0) 
         new_letter = random.choice(VOWELS + CONSONANTS)
 
-        #make sure not to pick the same letter or a letter already in the hand
         while new_letter == letter or new_letter in new_hand:
             new_letter = random.choice(VOWELS + CONSONANTS)
 
